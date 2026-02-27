@@ -1,0 +1,120 @@
+<% layout("/layouts/boilerplate") %>
+
+
+<style>
+
+#filters{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.filter{
+  text-align: center;
+  margin-top: 2rem;
+  opacity: 0.7;
+}
+
+.filter:hover{
+  opacity: 1;
+  cursor: pointer;
+}
+
+
+.listing-link{
+  text-decoration: none;
+  color: black;
+}
+
+.card{
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+</style>
+
+
+<div id="filters">
+  <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
+  <div class="filter"><i class="fa-solid fa-bed"></i><p>Rooms</p></div>
+  <div class="filter"><i class="fa-solid fa-mountain-city"></i><p>Iconic cities</p></div>
+  <div class="filter"><i class="fa-solid fa-mountain"></i><p>mountains</p></div>
+  <div class="filter"><i class="fa-brands fa-fort-awesome"></i><p>castles</p></div>
+  <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Amazing pools</p></div>
+  <div class="filter"><i class="fa-solid fa-campground"></i><p>camping</p></div>
+  <div class="filter"><i class="fa-solid fa-cow"></i><p>Farmes</p></div>
+  <div class="filter"><i class="fa-regular fa-snowflake"></i><p>Arctic</p></div>
+  <div class="filter"><i class="fa-solid fa-igloo"></i><p>Domes</p></div>
+  <div class="filter"><i class="fa-solid fa-sailboat"></i><p>Boats</p></div>
+
+  <div class="tax-toggle">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="switchCheckDefault">
+      <label class="form-check-label">Display total after taxes</label>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+
+  <div class="row mt-4 justify-content-center gx-5 gy-5">
+
+    <% for(let listing of allListings) { %>
+
+      <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center">
+
+        <a href="/listings/<%= listing._id %>" class="listing-link w-100">
+
+          <div class="card" style="width: 100%; max-width: 26rem;">
+
+            <img src="<%= listing.image.url %>"
+                 class="card-img-top"
+                 style="height:20rem; object-fit:cover;" />
+
+            <div class="card-body">
+              <p class="card-text mb-1">
+                <b><%= listing.title %></b>
+              </p>
+
+              <p class="mb-0">
+                ₹ <%= listing.price.toLocaleString("en-IN") %> / night
+                <span class="tax-info text-muted"> +18% GST</span>
+              </p>
+            </div>
+
+          </div>
+
+        </a>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+</div>
+
+<script>
+let taxSwitch = document.getElementById("switchCheckDefault");
+
+taxSwitch.addEventListener("click", () => {
+  let taxInfo = document.getElementsByClassName("tax-info");
+  for (let info of taxInfo) {
+    info.style.display = info.style.display === "inline" ? "none" : "inline";
+  }
+});
+
+setTimeout(() => {
+  let msg = document.getElementById("flash-msg");
+  if(msg) msg.style.display = "none";
+}, 2500);
+</script>
